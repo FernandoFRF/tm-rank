@@ -8,6 +8,49 @@ datasource db {
 }
 
 model Player {
-  id    Int    @id @default(autoincrement())
-  name  String
+  id        Int       @id @default(autoincrement())
+  name      String
+  nickname  String
+  createdAt DateTime  @default(now())
+  active    Boolean   @default(true)
+  matchesA  Match[]   @relation("PlayerA")
+  matchesB  Match[]   @relation("PlayerB")
+  rankings  Ranking[]
+}
+
+model Tournament {
+  id        Int       @id @default(autoincrement())
+  name      String
+  startDate DateTime
+  endDate   DateTime
+  finished  Boolean   @default(false)
+
+  matches   Match[]
+  rankings  Ranking[]
+}
+
+model Match {
+  id          Int       @id @default(autoincrement())
+  tournament Tournament @relation(fields: [tournamentId], references: [id])
+  tournamentId Int
+  playerA    Player     @relation("PlayerA", fields: [playerAId], references: [id])
+  playerAId  Int
+  playerB    Player     @relation("PlayerB", fields: [playerBId], references: [id])
+  playerBId  Int
+  scoreA     Int
+  scoreB     Int
+  date       DateTime
+  finished   Boolean    @default(false)
+}
+
+model Ranking {
+  id           Int       @id @default(autoincrement())
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  tournamentId Int
+  player       Player     @relation(fields: [playerId], references: [id])
+  playerId     Int
+  wins         Int        @default(0)
+  losses       Int        @default(0)
+  draws        Int        @default(0)
+  points       Int        @default(0)
 }

@@ -8,7 +8,10 @@
   "description": "Sistema de campeonato ranking todos contra todos para Tenis de Mesa",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:backend": "npm --prefix apps/backend run dev",
+    "dev:frontend": "npm --prefix apps/frontend run dev",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\""
   },
   "repository": {
     "type": "git",
@@ -23,6 +26,7 @@
   },
   "homepage": "https://github.com/FernandoFRF/tm-rank#readme",
   "devDependencies": {
+    "concurrently": "^9.1.2",
     "typescript": "^5.8.3"
   }
 }
